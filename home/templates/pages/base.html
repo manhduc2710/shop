@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>{% load static %}
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>{% block title %}{% endblock title %}</title>
+    <link href='{% static 'css/main.css' %}' rel='stylesheet'/>
+    <script crossorigin="anonymous"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" rel="stylesheet">
+    <link href="{% static 'js/cart.js' %}" rel="stylesheet" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- data table -->
+    <link href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+    <script type='text/javascript'>
+        var user = '{{request.user}}'
+        function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    </script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark shadow-lg bg-transparent">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse flex-column">
+            <div class="col-6">
+                <ul class="navbar-nav list-inline justify-content-center" style="border-top-left-radius: 30px; border-top-right-radius: 30px; background-color: #CF0A0A">
+                    {% if user.username %}
+                    <li class="nav-item justify-content-center" style=" margin-top: 8px; margin-right: 5px;">
+                        <h5>
+                            <i class="bi bi-person-circle"></i>
+                        </h5>    
+                    </li>
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active">{{request.user}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="{% url 'logout' %}">Log out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a aria-current="page" class="nav-link active" href="{% url 'register' %}">Register</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>    
+            <div class="col-12">
+                <ul class="navbar sticky-top navbar-expand-lg navbar-dark shadow-lg bg-black" style="border-radius: 30px;">
+                    <!-- Navbar brand -->
+                    <a class="navbar-brand nav-link" href="http://127.0.0.1:8000/" target="_blank" style="margin-left: 10px;">
+                        <strong>SHOES</strong>
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarExample01">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item active">
+                                <a aria-current="page" class="nav-link" href="#intro">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                                    id="dropdownMenuButton1" type="button">
+                                        Categories
+                                    </a>
+                                    <ul aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                                        {% for category in categories %}
+                                        <li><a class="dropdown-item" href="{% url 'category' %}?category={{category.slug}}">{{category.name}}</a>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="navbar-nav list-inline">
+                            <!-- Icons -->
+                            <form action="{% url 'search' %}" class="d-flex border-none" method="POST" role="search">
+                                {% csrf_token %}
+                                <button aria-label="Open Search Modal" class="btn bg-body-tertiary" data-search-closed-label="Search" type="submit" style="border-radius: 100px 0px 0px 100px; padding: 5px;">
+                                    <svg aria-hidden="true" class="pre-nav-design-icon" fill="none" focusable="false" height="24px"
+                                         role="img" viewBox="0 0 24 24" width="24px">
+                                        <path d="M13.962 16.296a6.716 6.716 0 01-3.462.954 6.728 6.728 0 01-4.773-1.977A6.728 6.728 0 013.75 10.5c0-1.864.755-3.551 1.977-4.773A6.728 6.728 0 0110.5 3.75c1.864 0 3.551.755 4.773 1.977A6.728 6.728 0 0117.25 10.5a6.726 6.726 0 01-.921 3.407c-.517.882-.434 1.988.289 2.711l3.853 3.853" stroke="currentColor"
+                                            stroke-width="1.5"></path>
+                                    </svg>
+                                </button>
+                                <input aria-label="Search" class="form-control border-0 bg-body-tertiary" name="searched" placeholder="Search" type="search" style="border-radius: 0px 100px 100px 0px; padding: 0px; width: 150px;">
+                            </form>
+                            <li class="nav-item" width="24px">
+                                <a class="btn position-relative" href="{% url 'wishlist' %}">
+                                    <i class="bi bi-heart"></i>
+                                </a>    
+                            </li>
+                            <li class="nav-item" width="24px" style="margin-right: 10px;">
+                                <a class="btn position-relative" href='{% url 'card' %}'>
+                                    <i class="bi bi-cart" style="color: #fff;"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        id="so-san-pham">
+                                                    {{cartItem}}
+                                                    <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>    
+                </nav>
+            </div>    
+        </div>
+    </div>
+</nav>
+{% block wishlist %}{% endblock %}
+{% block login %}{% endblock login %}
+{% block register %}{% endblock register %}
+{% block search %}{% endblock %}
+<div style="align: center; margin-top: 60px;">
+    {% block content %}{% endblock content %}
+    {% block product %}{% endblock %}
+    {% block detail %}{% endblock %}
+</div>
+{% block card %}{% endblock %}
+{% block content_checkout %}{% endblock %}
+
+<script src="{% static 'js/cart.js' %}"></script>
+</body>
+<div class="footer-dark">
+    <footer>
+        <div class="container-fluid">
+            <div align="center" class="row">
+                <div class="col-2">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="{% url 'register' %}">Become a member</a></li>
+                        <li><a href="#">Development</a></li>
+                        <li><a href="#">Hosting</a></li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <h3>Get Help</h3>
+                    <ul>
+                        <li><a href="{% url 'card' %}">Order</a></li>
+                        <li><a href="{% url 'checkout' %}">Delivery</a></li>
+                        <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                    </ul>
+                </div>
+                <div class="col-2">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="#">Company</a></li>
+                        <li><a href="#">Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 item social" align="right">
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-twitter"></i></a>
+                    <a href="#"><i class="bi bi-youtube"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                    <a href="#"><i class="bi bi-google"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</html>

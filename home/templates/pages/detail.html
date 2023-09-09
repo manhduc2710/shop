@@ -1,0 +1,87 @@
+{% extends 'pages/base.html' %}
+
+{% block detail %}
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="row">
+                    {% for product in product %}
+                    <div class="col-md-6">
+                        <div class="images p-3">
+                            <div class="text-center p-4"><img id="main-image" src="{{product.image.url}}" width="500" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mt-4 mb-3"><span class="text-uppercase text-muted brand">Shoes</span>
+                            <h5 class="text-uppercase">{{product.name}}</h5>
+                            <div class="price d-flex flex-row align-items-center">
+                                <span class="act-price">{{product.price}}$</span>
+                            </div>
+                        </div>
+                        <p class="about">{{product.detail}}</p>
+                        <div class="sizes mt-5">
+                            <h6 class="text-uppercase">Size</h6> <label class="radio"> <input checked name="size"
+                                    type="radio" value="S">
+                                <span>S</span> </label> <label class="radio"> <input name="size" type="radio" value="M">
+                                <span>M</span> </label> <label class="radio"> <input name="size" type="radio" value="L">
+                                <span>L</span> </label> <label class="radio"> <input name="size" type="radio"
+                                    value="XL">
+                                <span>XL</span> </label> <label class="radio"> <input name="size" type="radio"
+                                    value="XXL">
+                                <span>XXL</span> </label>
+                        </div>
+                        <div class="cart mt-4 align-items-center">
+                            <button class="btn btn-danger text-uppercase mr-2 px-4" style="margin-bottom: 20px;"
+                                type="submit">Add to cart <i class="bi bi-cart" style="color: #fff;"></i></button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- carousel -->
+
+<div class="popular_courses">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="owl-carousel active_course owl-loaded owl-drag">
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage"
+                             style="transform: translate3d(-1520px, 0px, 0px); transition: all 1.5s ease 0s; width: 3420px;">
+                            <div class="owl-item cloned" style="width: 350px; margin-right: 30px;">
+                                <div class="single_course">
+                                    {% for product in products %}
+                                    {% if i.category == product.category %}
+                                    <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px;">
+                                        <a href="{% url 'detail' %}?id={{product.id}}">
+                                            <img alt="..." class="card-img-top" src="{{product.image.url}}">
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{product.name}}</h5>
+                                            <p class="card-text">{{product.price}}$</p>
+                                            <button class="btn btn-primary" onclick="BtnMuaAoMC()" type="button">
+                                                + <i class="bi bi-cart-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

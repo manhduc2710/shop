@@ -1,0 +1,21 @@
+{% extends 'pages/base.html' %}
+{% block search %}
+<div class="container-fluid" align="center">
+    <div class="row" style="text-align: center; margin-top: 20px; display: flex; justify-content: center;">
+            {% for product in keys %}
+            <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px; align: center;">
+                <a href="{% url 'detail' %}?id={{product.id}}">
+                    <img alt="..." class="card-img-top" src="{{product.image.url}}" style="width: 262px; height:147px;">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}</h5>
+                    <p class="card-text">{{product.price}}$</p>
+                    <a class="btn btn-primary" onclick="BtnMuaAoMC()" href="{% url 'detail' %}?id={{product.id}}">
+                        View
+                    </a>
+                </div>
+            </div>
+            {% endfor %}  
+    </div>
+</div>    
+{% endblock %}
