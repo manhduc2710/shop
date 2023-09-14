@@ -75,3 +75,11 @@ class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
         fields=['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
+
+class carousel(models.Model):
+    image = models.ImageField(null=True)
+    title = models.CharField(max_length=150)
+    sub_title = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.title

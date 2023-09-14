@@ -116,26 +116,6 @@ h1,h2,h3,h4,h5,h6{
 	height: 100vh;
 }
 
-.carousel-item:nth-child(1) {
-	background-image: url('https://wallpapercave.com/wp/wp3078786.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
-}
-
-.carousel-item:nth-child(2) {
-	background-image: url('https://c0.wallpaperflare.com/preview/632/701/168/basketball-hoop-reflecting-on-water.jpg');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
-}
-
-.carousel-item:nth-child(3) {
-	background-image: url('https://images.prismic.io/end-features/b53d358a9646279938eebc4b834dd9bb471daa97_cj0939-100_launches_hero_landscape_1.jpg?auto=compress,format');
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
-}
 
 /* Height for devices larger than 576px */
 @media (min-width: 992px) {

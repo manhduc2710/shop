@@ -19,7 +19,8 @@ def home(request):
     page = Paginator(products, 8)
     page_list = request.GET.get("page")
     page = page.get_page(page_list) 
-    context = {'products': products, 'categories': categories, 'cartItem': cartItem, 'page': page}
+    obj = carousel.objects.all()
+    context = {'products': products, 'categories': categories, 'cartItem': cartItem, 'page': page, 'obj': obj}
     return render(request, 'pages/home.html', context)
 def detail(request):
     id = request.GET.get('id', '')

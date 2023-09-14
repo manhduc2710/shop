@@ -13,34 +13,16 @@
     <!-- Inner -->
     <div class="carousel-inner">
         <!-- Single item -->
-        <div class="carousel-item active">
-            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+        {% for object in obj %}
+        <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %} ">
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); background-repeat: no-repeat; background-size: cover;
+            background-position: center center;">
                 <div class="d-flex justify-content-center align-items-center h-100">
+                  <img src="{{object.image.url}}" style="height: 700px;" class="img-fluid d-block w-100">
                 </div>
             </div>
         </div>
-
-        <!-- Single item -->
-        <div class="carousel-item">
-            <div class="mask" style="background-color: rgba(0, 0, 0, 0.3);">
-                <div class="d-flex justify-content-center align-items-center h-100">
-                </div>
-            </div>
-        </div>
-
-        <!-- Single item -->
-        <div class="carousel-item">
-            <div class="mask" style="
-              background: linear-gradient(
-                45deg,
-                rgba(29, 236, 197, 0.7),
-                rgba(91, 14, 214, 0.7) 100%
-              );
-            ">
-                <div class="d-flex justify-content-center align-items-center h-100">
-                </div>
-            </div>
-        </div>
+        {% endfor %}  
     </div>
     <!-- Inner -->
 

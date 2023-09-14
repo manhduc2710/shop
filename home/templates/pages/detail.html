@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-
+{% load static %}
 {% block detail %}
 <div class="container mt-5 mb-5">
     <div class="row d-flex justify-content-center">
@@ -46,42 +46,47 @@
 
 
 <!-- carousel -->
+<div class="carousel slide" data-bs-ride="carousel" id="introCarousel">
+    <div class="carousel-indicators">
+        <button aria-current="true" aria-label="Slide 1" class="active" data-bs-slide-to="0"
+            data-bs-target="#introCarousel" type="button"></button>
+        <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#introCarousel" type="button"></button>
+        <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#introCarousel" type="button"></button>
+    </div>
 
-<div class="popular_courses">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="owl-carousel active_course owl-loaded owl-drag">
-                    <div class="owl-stage-outer">
-                        <div class="owl-stage"
-                             style="transform: translate3d(-1520px, 0px, 0px); transition: all 1.5s ease 0s; width: 3420px;">
-                            <div class="owl-item cloned" style="width: 350px; margin-right: 30px;">
-                                <div class="single_course">
-                                    {% for product in products %}
-                                    {% if i.category == product.category %}
-                                    <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px;">
-                                        <a href="{% url 'detail' %}?id={{product.id}}">
-                                            <img alt="..." class="card-img-top" src="{{product.image.url}}">
-                                        </a>
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{product.name}}</h5>
-                                            <p class="card-text">{{product.price}}$</p>
-                                            <button class="btn btn-primary" onclick="BtnMuaAoMC()" type="button">
-                                                + <i class="bi bi-cart-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Inner -->
+    <div class="carousel-inner">
+        <!-- Single item -->
+        {% for product in products %}
+        {% if i.category == product.category %}
+        <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px;">
+            <a href="{% url 'detail' %}?id={{product.id}}">
+                <img alt="..." class="card-img-top" src="{{product.image.url}}">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">{{product.price}}$</p>
+                <button class="btn btn-info update-cart" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
+                    + <i class="bi bi-cart-plus"></i>
+                </button>
+                <button class="btn btn-info" type="button" style="border-radius: 0px 100px 100px 0px;">
+                    + <i class="bi bi-heart"></i>
+                </button>
             </div>
         </div>
+        {% endif %}
+        {% endfor %}
     </div>
-</div>
+    <!-- Inner -->
 
+    <!-- Controls -->
+    <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#introCarousel" type="button">
+        <span aria-hidden="true" class="carousel-control-prev-icon"></span>
+        <span class="sr-only">Previous</span>
+    </button>
+    <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#introCarousel" type="button">
+        <span aria-hidden="true" class="carousel-control-next-icon"></span>
+        <span class="sr-only">Next</span>
+    </button>
 
-{% endblock %}
+    {% endblock %}
