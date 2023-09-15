@@ -1,7 +1,7 @@
 {% extends 'pages/base.html' %}
 {% block title %}Trang Chủ{% endblock %}
 {% block content %}
-<div class="carousel slide" data-bs-ride="carousel" id="introCarousel">
+<div class="carousel slide vh-100" data-bs-ride="carousel" id="introCarousel">
     <div class="carousel-indicators">
         <button aria-current="true" aria-label="Slide 1" class="active" data-bs-slide-to="0"
                 data-bs-target="#introCarousel"
@@ -18,7 +18,7 @@
             <div class="mask" style="background-color: rgba(0, 0, 0, 0.6); background-repeat: no-repeat; background-size: cover;
             background-position: center center;">
                 <div class="d-flex justify-content-center align-items-center h-100">
-                  <img src="{{object.image.url}}" style="height: 700px;" class="img-fluid d-block w-100">
+                  <img src="{{object.image.url}}" style="height: 650px;" class="img-fluid d-block w-100">
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{product.name}}</h5>
                 <p class="card-text">{{product.price}}$</p>
-                <button class="btn btn-info update-cart" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
+                <button class="btn btn-info update-cart addtoCartBtn vUpdateBtn" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
                     + <i class="bi bi-cart-plus"></i>
                 </button>
                 <button class="btn btn-info" type="button" style="border-radius: 0px 100px 100px 0px;">

@@ -31,37 +31,56 @@ function updateUserOrder(productId, action) {
         .then((data) => {
             location.reload()
         })
+    
+    
 }
 
-function active_course() {
-    if ($(".active_course").length) {
-      $(".active_course").owlCarousel({
-        loop: true,
-        margin: 20,
-        items: 3,
-        nav: true,
-        autoplay: 2500,
-        smartSpeed: 1500,
-        dots: false,
-        responsiveClass: true,
-        thumbs: true,
-        thumbsPrerendered: true,
-        navText: ["<img src='https://colorlib.com/preview/theme/edustage/img/prev.png'>", "<img src='https://colorlib.com/preview/theme/edustage/img/next.png'>"],
-        responsive: {
-          0: {
-            items: 1,
-            margin: 0
-          },
-          991: {
-            items: 2,
-            margin: 30
-          },
-          1200: {
-            items: 3,
-            margin: 30
-          }
+$(document).ready(function () {
+    $('.incrementBtn').click(function (e) { 
+        e.preventDefault();
+        
+        var inc_value = $(this).closest('.product_data').find('.quantity-input').val();
+        var value = parseInt(inc_value,10);
+        value = isNaN(value) ? 0 : value;
+        if (value < 10){
+            value++;
+            $(this).closest('.product_data').find('.quantity-input').val(value);
         }
-      });
-    }
-  }
-  active_course(); 
+    });
+
+
+    $('.decrementBtn').click(function (e) { 
+        e.preventDefault();
+        
+        var dec_value = $(this).closest('.product_data').find('.quantity-input').val();
+        var value = parseInt(dec_value,10);
+        value = isNaN(value) ? 0 : value;
+        if (value > 1){
+            value--;
+            $(this).closest('.product_data').find('.quantity-input').val(value);
+        }
+    });
+
+
+    $('.addtoCartBtn').click(function (e) { 
+        e.preventDefault();
+        
+        var productId = $(this).closest('.product_data').find('.prod_id').val();
+        var productquantity = $(this).closest('.product_data').find('.quantity-input').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        $.ajax({
+            method: "POST",
+            url: "/add-to-cart",
+            data: {
+                'productId': productId,
+                'productquantity': productquantity,
+                csrfmiddlewaretoken: token
+            },
+            dataType: "dataType",
+            success: function (response) {
+                console.log(response)
+                alertify.success(response.status)
+            }
+        });
+    });
+});

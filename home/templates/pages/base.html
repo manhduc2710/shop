@@ -112,13 +112,23 @@
                                 </a>    
                             </li>
                             <li class="nav-item" width="24px" style="margin-right: 10px;">
-                                <a class="btn position-relative" href='{% url 'card' %}'>
+                                {% if user.username %}
+                                <a class="btn position-relative" href='{% url 'cart' %}'>
                                     <i class="bi bi-cart" style="color: #fff;"></i>
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                                         id="so-san-pham">
                                                     {{cartItem}}
                                                     <span class="visually-hidden">unread messages</span>
                                     </span>
+                                {% else %}
+                                <a class="btn position-relative" href='{% url 'login' %}'>
+                                    <i class="bi bi-cart" style="color: #fff;"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                        id="so-san-pham">
+                                                    {{cartItem}}
+                                                    <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                {% endif %}
                                 </a>
                             </li>
                         </ul>
@@ -140,6 +150,7 @@
 {% block card %}{% endblock %}
 {% block content_checkout %}{% endblock %}
 
+<script src="{% static 'js/jquery-3.7.1.min.js' %}" crossorigin="anonymous"></script>
 <script src="{% static 'js/cart.js' %}"></script>
 </body>
 <div class="footer-dark">
@@ -157,7 +168,7 @@
                 <div class="col-2">
                     <h3>Get Help</h3>
                     <ul>
-                        <li><a href="{% url 'card' %}">Order</a></li>
+                        <li><a href="{% url 'cart' %}">Order</a></li>
                         <li><a href="{% url 'checkout' %}">Delivery</a></li>
                         <li><a href="{% url 'checkout' %}">Checkout</a></li>
                     </ul>

@@ -1,10 +1,10 @@
 {% extends 'pages/base.html' %}
 {% load static %}
 {% block detail %}
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5" style="margin-bottom: 30px;">
     <div class="row d-flex justify-content-center">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card product_data">
                 <div class="row">
                     {% for product in product %}
                     <div class="col-md-6">
@@ -14,14 +14,25 @@
                         </div>
                     </div>
                     <div class="col-md-6">
+                        {% csrf_token %}
                         <div class="mt-4 mb-3"><span class="text-uppercase text-muted brand">Shoes</span>
+                            <input type="hidden" value="{{product.id}}" class="prod_id">
                             <h5 class="text-uppercase">{{product.name}}</h5>
                             <div class="price d-flex flex-row align-items-center">
                                 <span class="act-price">{{product.price}}$</span>
                             </div>
                         </div>
                         <p class="about">{{product.detail}}</p>
-                        <div class="sizes mt-5">
+                        <div class="d-flex" style="margin-bottom: 10px;">
+                            <button class="btn btn-info decrementBtn" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
+                                -
+                            </button>
+                            <input type="text" name="quantity" class="form-control quantity-input text-center" style="width: 4rem;">
+                            <button class="btn btn-info incrementBtn" type="button" style="border-radius: 0px 100px 100px 0px;">
+                                + 
+                            </button>
+                        </div>    
+                        <div style="margin-top: 10px;">
                             <h6 class="text-uppercase">Size</h6> <label class="radio"> <input checked name="size"
                                     type="radio" value="S">
                                 <span>S</span> </label> <label class="radio"> <input name="size" type="radio" value="M">
@@ -33,8 +44,10 @@
                                 <span>XXL</span> </label>
                         </div>
                         <div class="cart mt-4 align-items-center">
-                            <button class="btn btn-danger text-uppercase mr-2 px-4" style="margin-bottom: 20px;"
+                            <button class="btn btn-danger text-uppercase mr-2 px-4 addtoCartBtn vUpdateBtn" style="margin-bottom: 20px;"
                                 type="submit">Add to cart <i class="bi bi-cart" style="color: #fff;"></i></button>
+                            <button class="btn btn-info text-uppercase mr-2 px-4" style="margin-bottom: 20px;"
+                                type="submit">Add to wishlist <i class="bi bi-heart" style="color: #fff;"></i></button>
                         </div>
                     </div>
                 </div>
@@ -44,49 +57,34 @@
     </div>
 </div>
 
-
 <!-- carousel -->
-<div class="carousel slide" data-bs-ride="carousel" id="introCarousel">
-    <div class="carousel-indicators">
-        <button aria-current="true" aria-label="Slide 1" class="active" data-bs-slide-to="0"
-            data-bs-target="#introCarousel" type="button"></button>
-        <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#introCarousel" type="button"></button>
-        <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#introCarousel" type="button"></button>
-    </div>
-
-    <!-- Inner -->
-    <div class="carousel-inner">
-        <!-- Single item -->
-        {% for product in products %}
-        {% if i.category == product.category %}
-        <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px;">
-            <a href="{% url 'detail' %}?id={{product.id}}">
-                <img alt="..." class="card-img-top" src="{{product.image.url}}">
-            </a>
-            <div class="card-body">
-                <h5 class="card-title">{{product.name}}</h5>
-                <p class="card-text">{{product.price}}$</p>
-                <button class="btn btn-info update-cart" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
-                    + <i class="bi bi-cart-plus"></i>
-                </button>
-                <button class="btn btn-info" type="button" style="border-radius: 0px 100px 100px 0px;">
-                    + <i class="bi bi-heart"></i>
-                </button>
-            </div>
+<div class="container-fluid justify-content-center">
+    <div class="carousel slide" data-bs-ride="carousel" id="introCarousel" style="margin-top: 30px;">
+        <!-- Inner -->
+        <h2 style="text-align: center;">Các sản phẩm liên quan</h2>
+        <div class="carousel-inner">
+            <!-- Single item -->
+            <div class="carousel-item active d-flex justify-content-center">
+                {% for product in page.object_list %}
+                <div class="card" style="width: 18rem; margin-left: 10px; margin-top: 20px; height: 23rem;">
+                    <a href="{% url 'detail' %}?id={{product.id}}">
+                        <img alt="..." class="card-img-top" src="{{product.image.url}}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.name}}</h5>
+                        <p class="card-text">{{product.price}}$</p>
+                        <button class="btn btn-info update-cart addtoCartBtn vUpdateBtn" type="button" style="border-radius: 100px 0px 0px 100px; margin-right: 0px;">
+                            + <i class="bi bi-cart-plus"></i>
+                        </button>
+                        <button class="btn btn-info" type="button" style="border-radius: 0px 100px 100px 0px;">
+                            + <i class="bi bi-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>    
         </div>
-        {% endif %}
-        {% endfor %}
+        <!-- Inner -->
     </div>
-    <!-- Inner -->
-
-    <!-- Controls -->
-    <button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#introCarousel" type="button">
-        <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-        <span class="sr-only">Previous</span>
-    </button>
-    <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#introCarousel" type="button">
-        <span aria-hidden="true" class="carousel-control-next-icon"></span>
-        <span class="sr-only">Next</span>
-    </button>
-
-    {% endblock %}
+</div>
+{% endblock %}
